@@ -1,0 +1,19 @@
+.container {
+    display: flex;
+    height: calc(100vh - 70px);
+}
+
+.chat-list {
+    width: 40%;
+    margin: 16px;
+    background-color: #c5cae9;
+    border-radius: 16px;
+    box-shadow: 6px 4px 12px 1px #000000;
+}
+
+.messanges {
+    width: 60%;
+    margin: 16px;
+    box-shadow: 6px 4px 12px 1px #000000;
+    border-radius: 16px;
+}

@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "simplechat-69755": {
+      "hosting": {
+        "simpleChat": [
+          "simplechat-69755"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "simplechat-69755"
+  }
+}
