@@ -37,6 +37,8 @@ export class ChatroomComponent implements OnInit {
   @ViewChild('chatcontent') chatcontent: ElementRef;
   scrolltop: number = null;
 
+  ref = this.afsData.database.ref('roomusers/');
+
   chatForm: FormGroup;
   nickname = '';
   roomname = '';
@@ -56,7 +58,9 @@ export class ChatroomComponent implements OnInit {
         this.chats = snapshotToArray(resp);
         setTimeout(() => this.scrolltop = this.chatcontent.nativeElement.scrollHeight, 500);
       });
-      this.afsData.database.ref('roomusers/').orderByChild('roomname').equalTo(this.roomname).on('value', (resp2: any) => {
+      console.log(this.roomname)
+    
+      this.ref.orderByChild('roomname').equalTo(this.roomname).on('value', (resp2: any) => {
         const roomusers = snapshotToArray(resp2);
         this.users = roomusers.filter(x => x.status === 'online');
       });
@@ -101,7 +105,7 @@ export class ChatroomComponent implements OnInit {
         }
       });
   
-      this.router.navigate(['/roomlist']);
+      this.router.navigateByUrl('/roomlist/' + this.nickname);
     }
 
 }

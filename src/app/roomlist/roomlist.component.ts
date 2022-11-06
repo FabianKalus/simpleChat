@@ -61,6 +61,7 @@ export class RoomlistComponent implements OnInit {
 
     this.ref.orderByChild('roomname').equalTo(roomname).on('value', (resp: any) => {
       let roomuser = [];
+   
       roomuser = snapshotToArray(resp);
       const user = roomuser.find(x => x.nickname === this.nickname);
       if (user !== undefined) {
@@ -74,9 +75,13 @@ export class RoomlistComponent implements OnInit {
         const newRoomUser = this.afsData.database.ref('roomusers/').push();
         newRoomUser.set(newroomuser);
       }
+      console.log(roomuser)
     });
     console.log(roomname + 'später');
     console.log(this.nickname + 'später');
+  
+    
+    // this.router.navigate(['/chatroom', roomname]);
     this.router.navigate(['/chatroom', roomname]);
     // this.router.navigateByUrl('/chatroom/' + this.nickname + '/' + roomname );
 
