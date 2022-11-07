@@ -82,8 +82,8 @@ export class RoomlistComponent implements OnInit {
   
     
     // this.router.navigate(['/chatroom', roomname]);
-    this.router.navigate(['/chatroom', roomname]);
-    // this.router.navigateByUrl('/chatroom/' + this.nickname + '/' + roomname );
+    // this.router.navigate(['/chatroom/', roomname]);
+    this.router.navigateByUrl('/chatroom/' + this.nickname + '/' + roomname );
 
     console.log(this.nickname + 'noch später');
   }

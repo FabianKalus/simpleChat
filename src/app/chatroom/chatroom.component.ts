@@ -27,6 +27,7 @@ export const snapshotToArray = (snapshot: any) => {
   return returnArr;
 };
 
+
 @Component({
   selector: 'app-chatroom',
   templateUrl: './chatroom.component.html',
@@ -47,6 +48,8 @@ export class ChatroomComponent implements OnInit {
   chats = [];
   matcher = new MyErrorStateMatcher();
 
+  currentChats = [];
+
   constructor(private router: Router, public afsData: AngularFireDatabase,
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
@@ -58,7 +61,11 @@ export class ChatroomComponent implements OnInit {
         this.chats = snapshotToArray(resp);
         setTimeout(() => this.scrolltop = this.chatcontent.nativeElement.scrollHeight, 500);
       });
-      console.log(this.roomname)
+      for(let i = 0; i < this.chats.length; i++){
+        if(this.chats[i].roomname == this.roomname){
+          this.currentChats.push(this.chats[i])
+        }
+      }
     
       this.ref.orderByChild('roomname').equalTo(this.roomname).on('value', (resp2: any) => {
         const roomusers = snapshotToArray(resp2);
@@ -80,6 +87,7 @@ export class ChatroomComponent implements OnInit {
       chat.type = 'message';
       const newMessage = this.afsData.database.ref('chats/').push();
       newMessage.set(chat);
+      this.currentChats.push(chat);
       this.chatForm = this.formBuilder.group({
         'message' : [null, Validators.required]
       });
@@ -95,15 +103,16 @@ export class ChatroomComponent implements OnInit {
       const newMessage = this.afsData.database.ref('chats/').push();
       newMessage.set(chat);
   
-      this.afsData.database.ref('roomusers/').orderByChild('roomname').equalTo(this.roomname).on('value', (resp: any) => {
-        let roomuser = [];
-        roomuser = snapshotToArray(resp);
-        const user = roomuser.find(x => x.nickname === this.nickname);
-        if (user !== undefined) {
-          const userRef = this.afsData.database.ref('roomusers/' + user.key);
-          userRef.update({status: 'offline'});
-        }
-      });
+      // this.ref.orderByChild('roomname').equalTo(this.roomname).on('value', (resp: any) => {
+      //   let roomuser = [];
+      //   roomuser = snapshotToArray(resp);
+      //   console.log(roomuser + '1111111111')
+        // const user = roomuser.find(x => x.nickname === this.nickname);
+        // if (user !== undefined) {
+        //   const userRef = this.afsData.database.ref('roomusers/' + user.key);
+        //   userRef.update({status: 'offline'});
+        // }
+      // });
   
       this.router.navigateByUrl('/roomlist/' + this.nickname);
     }
